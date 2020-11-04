@@ -61,22 +61,22 @@ export default class TileGL extends Backend {
 
 		if (!ch) { return; }
 
-		let chars = ([] as string[]).concat(ch);
-		let bgs = ([] as string[]).concat(bg);
-		let fgs = ([] as string[]).concat(fg);
+		// let chars = ([] as string[]).concat(ch);
+		// let bgs = ([] as string[]).concat(bg);
+		// let fgs = ([] as string[]).concat(fg);
 
 		gl.uniform2fv(this._uniforms["targetPosRel"], [x, y]);
 
-		for (let i=0;i<chars.length;i++) {
-			let tile = this._options.tileMap[chars[i]];
-			if (!tile) { throw new Error(`Char "${chars[i]}" not found in tileMap`); }
+		for (let i=0;i<ch.length;i++) {
+			let tile = this._options.tileMap[ch[i]];
+			if (!tile) { throw new Error(`Char "${ch[i]}" not found in tileMap`); }
 
 			gl.uniform1f(this._uniforms["colorize"], opts.tileColorize ? 1 : 0);
 			gl.uniform2fv(this._uniforms["tilesetPosAbs"], tile);
 
 			if (opts.tileColorize) {
-				gl.uniform4fv(this._uniforms["tint"], parseColor(fgs[i]));
-				gl.uniform4fv(this._uniforms["bg"], parseColor(bgs[i]));
+				gl.uniform4fv(this._uniforms["tint"], parseColor(fg[i]));
+				gl.uniform4fv(this._uniforms["bg"], parseColor(bg[i]));
 			}
 
 			gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
