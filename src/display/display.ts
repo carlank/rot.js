@@ -58,7 +58,7 @@ export default class Display {
 		this._options = {} as DisplayOptions;
 
 		options = Object.assign({}, DEFAULT_OPTIONS, options);
-		this.setOptions(options);
+		this.setOptions(options, 'tileSet' in options);
 		this.DEBUG = this.DEBUG.bind(this);
 
 		this._tick = this._tick.bind(this);

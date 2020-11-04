@@ -28,16 +28,17 @@ export default class TileGL extends Backend {
 	schedule(cb: () => void) { requestAnimationFrame(cb); }
 	getContainer() { return this._gl.canvas as HTMLCanvasElement; }
 
-	setOptions(opts: DisplayOptions) {
+	setOptions(opts: DisplayOptions, dirtyTileSet: boolean = true) {
 		super.setOptions(opts);
 
 		this._updateSize();
-
-		let tileSet = this._options.tileSet;
-		if (tileSet && "complete" in tileSet && !tileSet.complete) {
-			tileSet.addEventListener("load", () => this._updateTexture(tileSet as HTMLImageElement));
-		} else {
-			this._updateTexture(tileSet as HTMLImageElement);
+		if(dirtyTileSet){
+			let tileSet = this._options.tileSet;
+			if (tileSet && "complete" in tileSet && !tileSet.complete) {
+				tileSet.addEventListener("load", () => this._updateTexture(tileSet as HTMLImageElement));
+			} else {
+				this._updateTexture(tileSet as HTMLImageElement);
+			}
 		}
 	}
 
