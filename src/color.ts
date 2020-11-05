@@ -1,7 +1,7 @@
 import { clamp } from "./util.js";
 import RNG from "./rng.js";
 
-export type Color = [number, number, number];
+export type Color = [number, number, number] | [number, number, number, number];
 
 export function	fromString(str: string): Color {
 	let cached:Color, r;
@@ -22,7 +22,9 @@ export function	fromString(str: string): Color {
 				cached = values as Color;
 			}
 
-		} else if ((r = str.match(/rgb\(([0-9, ]+)\)/i))) { // decimal rgb
+		} else if ((r = str.match(/rgba\(([0-9, .]+)\)/i))) { // decimal rgba
+      cached = r[1].split(/\s*,\s*/).map((x: string,i:number) => i === 3 ? parseFloat(x) : parseInt(x));
+    } else if ((r = str.match(/rgb\(([0-9, ]+)\)/i))) { // decimal rgb
 			cached = r[1].split(/\s*,\s*/).map((x:string) => parseInt(x)) as Color;
 		} else { // html name
 			cached = [0, 0, 0];
@@ -32,6 +34,13 @@ export function	fromString(str: string): Color {
 	}
 
 	return cached.slice() as Color;
+}
+
+export function makeRGBA(color){
+    if(color.length === 3){
+        color = color.concat(1);
+    }
+    return color;
 }
 
 /**
@@ -184,6 +193,11 @@ export function hsl2rgb(color: Color): Color {
 export function toRGB(color: Color) {
 	let clamped = color.map(x => clamp(x, 0, 255));
 	return `rgb(${clamped.join(",")})`;
+}
+
+export function toRGBA(color: color) {
+    let clamped = makeRGBA(color).map((x,i) => i < 3 ? clamp(x, 0, 255) : x);
+    return `rgba(${clamped.join(",")})`;
 }
 
 export function toHex(color: Color) {
