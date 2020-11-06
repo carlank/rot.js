@@ -1,5 +1,6 @@
-export declare type Color = [number, number, number];
+export declare type Color = [number, number, number] | [number, number, number, number];
 export declare function fromString(str: string): Color;
+export declare function makeRGBA(color: Color): Color;
 /**
  * Add two or more colors
  */
@@ -41,4 +42,5 @@ export declare function rgb2hsl(color: Color): Color;
  */
 export declare function hsl2rgb(color: Color): Color;
 export declare function toRGB(color: Color): string;
+export declare function toRGBA(color: Color): string;
 export declare function toHex(color: Color): string;
